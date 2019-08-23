@@ -1,0 +1,86 @@
+<!-- <form class="form-inline">
+    <input class="form-control" name="searchInput" placeholder="Search" #searchInput="ngModel" [(ngModel)]="searchText" style="width: 90%;">
+    <button class="btn btn-outline-primary" (click)="searchText=''">X</button>
+  </form>
+<table class="table table-hover">
+    <thead>
+        <th scope="col">profile</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Mobile</th>
+      <th scope="col">Salary</th>
+      <th scope="col">Action</th>
+    </thead>
+    <ng-container *ngFor="let employee of employeeArray">
+      <tr class="table-success" *ngIf="filterCondition(employee)">
+        <td><img [src]="employee.image"></td>
+        <td>{{employee.fullName}}</td>
+        <td>{{employee.email}}</td>
+          <td>{{employee.mobile}}</td>
+          <td>{{employee.salary| currency:"&#8377;"}}</td>
+          <td>
+            <button style="margin-right:4px " class="btn btn-outline-info" (click)="employeeService.populateForm(employee)">Edit</button>
+            <button class="btn btn-outline-danger" (click)="onDelete(employee.$key)">Delete</button>
+          </td>
+      </tr>
+    </ng-container>
+  </table>
+  <div class="alert alert-danger" *ngIf="showDeletedMessage">
+    Deleted successfully.
+  </div> -->
+  <div class="search-div">
+    <button mat-raised-button  (click)="onCreate()">
+      <mat-icon>add</mat-icon>Create
+    </button>
+    <mat-form-field class="search-form-field" floatLabel="never">
+      <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+      <button mat-button matSuffix mat-icon-button aria-label="Clear"*ngIf="searchKey"  (click)="onSearchClear()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div class="mat-elevation-z8">
+    <mat-table [dataSource]="listData"  matSort>
+      <ng-container matColumnDef="fullName">
+        <mat-header-cell *matHeaderCellDef  mat-sort-header>Full Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.fullName}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="mobile">
+        <mat-header-cell *matHeaderCellDef>Mobile</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.mobile}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="salary">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Salary</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.salary | currency:"&#8377;" }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
+          <button mat-icon-button color="warn" (click)="onDelete(row.$key)"><mat-icon>delete_outline</mat-icon></button>
+        </mat-cell>
+      </ng-container>
+      
+           
+      
+      <ng-container matColumnDef="loading">
+        <mat-footer-cell *matFooterCellDef colspan="6">
+          <div class="loader"></div>
+        </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="noData">
+        <mat-footer-cell *matFooterCellDef colspan="6">
+          No data.
+        </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-footer-row *matFooterRowDef="['loading']" [ngClass]="{'hide':listData!=null}"></mat-footer-row>
+      <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[3, 5, 10, 25, 100]" [pageSize]="3" showFirstLastButtons></mat-paginator>
+  </div>

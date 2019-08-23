@@ -1,0 +1,45 @@
+<div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <h3 class="text-center my-4">Search Location</h3>
+            <form
+              [formGroup]="weatherSearchForm"
+              (ngSubmit)="sendToAPIXU(weatherSearchForm.value)"
+            >
+              <div class="form-group">
+                <input class="form-control" type="text" id="weatherLocation" aria-describedby="weatherLocation" placeholder="Please enter location" formControlName="location"
+                />
+              </div>
+              <div class="text-right">
+                    <button type="submit" class="btn btn-success btn-md">Search </button>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-2"></div>
+          <div class="col-md-6">
+            <h3 class="text-center my-4">Weather Details</h3>
+            <p class="text-left">
+              Current weather conditions: {{ this.weatherData?.current.condition.text
+              }}.
+            </p>
+            <p class="text-left">
+              Temperature in Degrees Celsius: {{ this.weatherData?.current.temp_c }}
+            </p>
+            <p class="text-left">
+              Temperature in Degrees Farenheit: {{ this.weatherData?.current.temp_f }}
+            </p>
+            <p class="text-left">
+              Feels like in Degrees Celsius: {{ this.weatherData?.current.feelslike_c
+              }}
+            </p>
+            <p class="text-left">
+              Feels like in Degrees Farenheit: {{
+              this.weatherData?.current.feelslike_f }}
+            </p>
+            <p class="text-left">
+              Location Searched: {{ this.weatherData?.location.name }}, {{
+              this.weatherData?.location.country }}.
+            </p>
+          </div>
+        </div>
+      </div>
